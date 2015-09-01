@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <title>{{title}}</title>
+    <link rel='stylesheet' href="/css/bootstrap.min.css">
+    <style>
+      .wrp-container-header {
+        background: #3F688E;
+      }
+      .wrp-container-footer {
+        background: #FF7F50;
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    {{#each layout}}
+    {{>(template)}}
+    {{/each}}
+    <p>Code injection</p>
+  </body>
+
+</html>

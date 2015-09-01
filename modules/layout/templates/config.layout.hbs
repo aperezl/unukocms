@@ -1,0 +1,16 @@
+<div class="config.layout">
+  <h1>Configuración del layout</h1>
+  <a class="btn btn-primary" href="/layout/partials/regenerate">Regenerar todo</a>
+  <table class="table">
+  {{#each data.partials}}
+  <tr>
+    <td>{{name}}</td>
+    <td>
+      <strong>Path:</strong> {{shortpath}}<br />
+      <strong>Origin:</strong> {{shortpathOrigin}}
+    </td>
+  </tr>
+  {{/each}}
+  </table>
+
+</div>

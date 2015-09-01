@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <title>{{title}}</title>
+    <link rel='stylesheet' href="/css/bootstrap.min.css">
+    <style>
+      .wrp-container-header {
+        background: #3F688E;
+      }
+      .wrp-container-footer {
+        background: #FF7F50;
+        text-align: right;
+      }
+
+      .field {
+        margin-bottom: 3em;
+      }
+
+      .field-label {
+        font-weight: bold;
+      }
+      .field-field {
+        line-height: 1.7em;
+      }
+    </style>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    {{#each layout}}
+    {{>(template)}}
+    {{/each}}
+  </body>
+</html>

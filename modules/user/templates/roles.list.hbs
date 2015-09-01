@@ -1,0 +1,15 @@
+<form id="roleslist" name="roleslist" action="/user/roles" method="post">
+  <table class="table">
+    <tr>
+      <td>-</td>
+      {{#each data.roles}}
+      <th>{{name}}</th>
+      {{/each}}
+      <th>Superadmin</th>
+    </tr>
+    {{#user_roles data}}--{{data}}--{{/user_roles}}
+  </table>
+  <div class="form-group">
+    <button type="submit" class="btn btn-default">Enviar</button>
+  </div>
+</form>

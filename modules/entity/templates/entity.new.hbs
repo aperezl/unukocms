@@ -1,0 +1,17 @@
+{{>tabs}}
+<h1>Creación de una nueva entidad</h1>
+<form id="aa" action="/entity" method="post">
+
+  <div class="form-group">
+    <label for="title">Titulo</label>
+    <input type="text" class="form-control" name="title" id="title" />
+  </div>
+
+  <hr />
+  {{#fieldsEdit data}}{{/fieldsEdit}}
+
+  <div class="form-group">
+    <button class="btn btn-primary" type="submit">Enviar</button>
+  </div>
+
+</form>

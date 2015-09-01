@@ -1,0 +1,69 @@
+<div class="edit-block">
+  Editando bloque...
+  <form id="editblock" name="editblock" action="/blocks/edit/{{data.block.name}}?_method=put" method="post">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" name="name" id="name" value="{{data.block.name}}"/>
+    </div>
+
+    <div class="form-group">
+      <label for="name">Template</label>
+      <input type="text" class="form-control" name="template" id="template" value="{{data.block.template}}"/>
+    </div>
+
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" class="form-control" name="title" id="title" value="{{data.block.title}}"/>
+    </div>
+
+    <div class="form-group">
+      <label for="title">Content</label>
+      <textarea rows="5" name="content" id="content" class="form-control">{{data.block.content}}</textarea>
+    </div>
+
+    <hr />
+
+    {{#each data.block.layout}}
+      <p><strong>{{name}}</strong></p>
+      <p>(Configuración local del bloque)</p>
+      <p>{{title}}</p>
+      <p>{{template}}</p>
+    {{/each}}
+
+    <div class="well clearfix">
+
+      <ul class="nav nav-pills nav-stacked col-md-3">
+        <li><a href="#b" data-toggle="tab">Permisos</a></li>
+        <li><a href="#c" data-toggle="tab">Configuración</a></li>
+      </ul>
+      <div class="tab-content col-md-9">
+
+        <div class="tab-pane" id="b">
+          <div class="form-group">
+            <div class="checkbox">
+              <label><input type="checkbox" value="" />anonymous</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" value="" />registed</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" value="" />administrator</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="c">
+          Configuración del bloque. Aquí se debe eligir donde aparecerá y como se comportará.
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <button class="btn btn-primary" type="submit">Enviar</button>
+    </div>
+
+  </form>
+
+</div>

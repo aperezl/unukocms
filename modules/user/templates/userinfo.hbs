@@ -1,0 +1,14 @@
+<div class="userinfo" style="padding: 10px">
+  Información relevante sobre el usuario
+  <p><strong>nombre:</strong>{{data.user.username}}</p>
+  <p><strong>created:</strong>{{data.user.created}}</p>
+  <p><strong>_id:</strong>{{data.user._id}}</p>
+  <p><strong>Roles</strong></p>
+  <ul>
+    {{#each data.user.roles}}
+    <li>
+      {{name}}
+    </li>
+    {{/each}}
+  </ul>
+</div>

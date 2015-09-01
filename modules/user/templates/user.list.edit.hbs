@@ -1,0 +1,19 @@
+<form id="" method="post">
+  <div class="form-group">
+    <label for="username">username</label>
+    <span class="form-control">{{data.user.username}}</span>
+  </div>
+
+    {{#each data._roles}}
+    <div class="form-group">
+      <label for="role.{{_id}}">
+        <input class="" type="checkbox" name="role[{{_id}}]" id="role.{{_id}}" {{#if checked}} checked="checked" {{/if}} />
+        {{name}}
+      </label>
+    </div>
+    {{/each}}
+  <div class="form-group">
+    <button type="submit" class="btn btn-default">Enviar</button>
+  </div>
+
+</form>
