@@ -1,0 +1,203 @@
+<html ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="lib/ng-sortable/dist/ng-sortable.min.css">
+	<style type="text/css">
+		.container {
+			border: 1px dotted #BBBBBB;
+			background: #EDE5FF;
+		}
+		.row {
+			border: 1px dotted #BBBBBB;
+			background: #F7F2FF;
+		}
+
+		.wrp-col {
+			padding: 10px 0;
+		}
+		.col {
+			border: 1px dotted #BBBBBB;
+			background: #ffffff;
+		}
+		.handler {
+
+		}
+		 .as-sortable-dragging{ border: 1px dotted #000 !important; }
+
+		 /* Put your css in here */
+
+.as-sortable-item {
+	border: 1px solid red;
+}
+
+.as-sortable-placeholder {
+	border: 1px solid red;
+	float: left;
+}
+
+/*.sortable-row:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}*/
+
+#sortable-container {
+    display: inline-block;
+}
+
+	</style>
+	<script type="text/javascript" src="lib/angular/angular.min.js"></script>
+	<script type="text/javascript" src="lib/ng-sortable/dist/ng-sortable.min.js"></script>
+	<script type="text/javascript" src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+
+	<script type="text/javascript">
+
+	angular.module('myApp', ['as.sortable', 'ui.bootstrap'])
+	.controller('xCtrl', function($scope, $modal) {
+		console.log('init xCtrl');
+		$scope.items = [1,2,3];
+		$scope.serialize = function() {
+			console.log($scope.layout);
+		}
+		/*
+		$scope.layout = {
+			'header': {
+				'row': {
+					'col1': {
+						class: "col-sm-4",
+						items: [1,2,3]
+					},
+					'col2': {
+						class: "col-sm-8",
+						items: [4,5,6]
+					}
+				}
+			}
+		};*/
+
+
+		$scope.layout = [{
+		    name: 'c1',
+		    type: 'container',
+		    layout: [{
+		    	name: 'r0',
+		    	type: 'row',
+		    	layout: []
+		    }, {
+		    	name: 'r1',
+		    	type: 'row',
+		    	layout: [{
+		    		name: 'col1',
+		    		type: 'col',
+		    		class: 'col-sm-1'
+		    	}, {
+		    		name: 'col2',
+		    		type: 'col',
+		    		class: 'col-sm-1'
+		    	}]
+			}, {
+				name: 'r2',
+				type: 'row',
+				layout: [{
+		    		name: 'col3',
+		    		type: 'col',
+		    		class: 'col-sm-1'
+		    	}, {
+		    		name: 'col4',
+		    		type: 'col',
+		    		class: 'col-sm-1'
+		    	}]
+			}]
+		  }, {
+		    name: 'c2',
+		    type: 'container',
+		    layout: []
+		  }, {
+		    name: 'c3',
+		    type: 'container',
+		    layout: []
+		  }];
+
+		$scope.c = {
+		    accept: function (sourceItemHandleScope, destSortableScope) {
+		    	return  sourceItemHandleScope.itemScope.modelValue.type === 'container';
+		    }
+		}
+		$scope.r = {
+		    accept: function (sourceItemHandleScope, destSortableScope) {
+		    	return  sourceItemHandleScope.itemScope.modelValue.type === 'row';
+		    }
+		}
+		$scope.col = {
+		    accept: function (sourceItemHandleScope, destSortableScope) {
+		    	return  sourceItemHandleScope.itemScope.modelValue.type === 'col';
+		    }
+		}
+
+
+		 $scope.open = function (size) {
+
+		    var modalInstance = $modal.open({
+		      animation: $scope.animationsEnabled,
+		      templateUrl: 'myModalContent.html',
+		      controller: 'xCtrl',
+		      size: size
+		    });
+
+		    modalInstance.result.then(function (selectedItem) {
+			      $scope.selected = selectedItem;
+			    }, function () {
+			      console.info('Modal dismissed at: ' + new Date());
+			    });
+
+		}
+
+		});
+
+
+	</script>
+
+</head>
+<body ng-controller="xCtrl">
+
+<a href="#" ng-click="serialize()">serialize</a>
+<div data-as-sortable="c" data-ng-model="layout">
+
+	<div class="container" data-ng-repeat="l in layout" data-as-sortable-item>
+		<div class="handler" data-as-sortable-item-handle>-c-{{l.name}}</div>
+		<div data-as-sortable="r" data-ng-model="l.layout" style="padding: 20px 0">
+		<div class="row" ng-repeat="r in l.layout" data-as-sortable-item>
+			<div class="handler" data-as-sortable-item-handle>-r-{{r.name}}</div>
+
+			<div class="wrp-col" data-as-sortable="col" data-ng-model="r.layout">
+				<div class="{{col.class}} col" ng-repeat="col in r.layout" data-as-sortable-item>
+					<div class="handler" data-as-sortable-item-handle>-col-{{col.name}}</div>
+				</div>
+			</div>
+
+		</div>
+
+		</div>
+	</div>
+</div>
+<button type="button" class="btn btn-default" ng-click="open()">Open me!</button>
+ <script type="text/ng-template" id="myModalContent.html">
+  <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+ </script>
+
+</body>
+</html>
+
+		<div class="row" ng-repeat="r in l">
+			<div class="col {{c.class}}" ng-repeat="c in r" data-as-sortable="c" data-ng-model="c.items">
+			<div>-col-</div>
+			<div data-ng-repeat="item in c.items" data-as-sortable-item><div data-as-sortable-item-handle>{{item}}x</div></div>
+			</div>
+		</div>
