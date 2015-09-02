@@ -32,6 +32,10 @@ unuko.html.layout['footer'].layout['footer'].layout['footer'].layout['copyright'
 
 
 
+unuko.app.get('/getlayout', function(req, res) {
+  res.send(unuko.html['main'].layout);
+})
+
 unuko.app.get('/', function(req, res) {
   //redefinimos para probar el contenido de una col
   var text = '<h1>Página de inicio</h1>';

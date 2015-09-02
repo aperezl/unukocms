@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>AngularJS and Sortable demo</title>
+
+  <link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.min.css">
+    <style type="text/css">
+    .container {
+      border: 1px dotted #BBBBBB;
+      background: #EDE5FF;
+    }
+    .row {
+      border: 1px dotted #BBBBBB;
+      background: #F7F2FF;
+    }
+
+    .wrp-col {
+      padding: 10px 0;
+    }
+    .col {
+      border: 1px dotted #BBBBBB;
+      background: #ffffff;
+    }
+    .handler {
+      
+    }
+  </style>
+
+  <!-- AngularJS -->
+  <script type="text/javascript" src="lib/angular/angular.min.js"></script>
+
+  <!-- Sortable.js -->
+  <script src="http://rubaxa.github.io/Sortable/Sortable.js"></script>
+
+  <!-- ng-sortable.js -->
+  <script src="http://rubaxa.github.io/Sortable/ng-sortable.js"></script>
+  <script type="text/javascript">
+    angular.module('myApp', ['ng-sortable'])
+        .controller('demo', ['$scope', function ($scope) {
+           
+
+$scope.layout = [{
+        name: 'c1',
+        type: 'container',
+        layout: [{
+          name: 'r0',
+          type: 'row',
+          layout: []
+        }, {
+          name: 'r1',
+          type: 'row',
+          layout: [{
+            name: 'col1',
+            type: 'col',
+            class: 'col-sm-1'
+          }, {
+            name: 'col2',
+            type: 'col',
+            class: 'col-sm-1'
+          }]
+      }, {
+        name: 'r2',
+        type: 'row',
+        layout: [{
+            name: 'col3',
+            type: 'col',
+            class: 'col-sm-1'
+          }, {
+            name: 'col4',
+            type: 'col',
+            class: 'col-sm-1'
+          }]
+      }]
+      }, {
+        name: 'c2',
+        type: 'container',
+        layout: []
+      }, {
+        name: 'c3',
+        type: 'container',
+        layout: []
+      }];
+
+
+
+
+
+
+
+            $scope.serialize = function() {
+              console.log($scope.items)
+            }
+        }]);
+  </script>
+  
+</head>
+<body>
+  
+  <div ng-app="myApp" ng-controller="demo">
+    <a href="#" ng-click="serialize()">serialize</a>
+
+
+     <div ng-sortable="{animation:150, group: 'container'}" style="min-height: 20px;">
+        <div class="container" ng-repeat="item in layout">
+          {{item.name}}
+          <div ng-sortable="{animation:150, group: 'row'}" style="min-height: 20px;">
+            <div class="row" ng-repeat="item in item.layout">
+              {{item.name}}
+              <div ng-sortable="{animation: 150, group: 'col'}" style="min-height: 20px;">
+                <div class="col {{item.class}}" ng-repeat="item in item.layout">
+                  {{item.name}}
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+     </div>
+      <hr />
+
+    
+  </div>
+
+
+
+</body>
+</html>
