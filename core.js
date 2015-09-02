@@ -35,7 +35,7 @@ unuko.init = function() {
   unuko.vars['copyright'] = 'Esta página es Unuko.com';
   unuko.vars['about'] = '<p>Acerca de esta página. Esto debería configurable desde el submenú correspondiente</p>';
   unuko.vars['basePath'] = __dirname;
-  unuko.vars['regenerateTemplates'] = false;
+  unuko.vars['regenerateTemplates'] = true;
   unuko.app.use(cookieParser());
   unuko.app.use(express.static(__dirname + '/public'));
   unuko.app.use(bodyParser.urlencoded());
@@ -172,7 +172,11 @@ unuko.init = function() {
     source += '{{>html}}\n';
     source += '<!-- /Render generator -->\n'
     var template = hbs.compile(source);
+    console.log('html', html)
+
     var result = template(html);
+    console.log(result);
+
     console.timeEnd('render');
     return result;
   }

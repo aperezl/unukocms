@@ -23,7 +23,7 @@
       background: #ffffff;
     }
     .handler {
-      
+
     }
   </style>
 
@@ -37,8 +37,23 @@
   <script src="http://rubaxa.github.io/Sortable/ng-sortable.js"></script>
   <script type="text/javascript">
     angular.module('myApp', ['ng-sortable'])
-        .controller('demo', ['$scope', function ($scope) {
-           
+      .factory('layout', function($http) {
+        return function() {
+          return 'aaa';
+        }
+      })
+      .controller('demo', function ($scope, $http) {
+
+      $http.get('/getlayout').
+        then(function(response) {
+          console.log(response);
+          $scope.layout = response.data.layout;
+          // this callback will be called asynchronously
+          // when the response is available
+        }, function(response) {
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+        });
 
 $scope.layout = [{
         name: 'c1',
@@ -89,14 +104,14 @@ $scope.layout = [{
 
 
             $scope.serialize = function() {
-              console.log($scope.items)
+              console.log($scope.layout)
             }
-        }]);
+        });
   </script>
-  
+
 </head>
 <body>
-  
+
   <div ng-app="myApp" ng-controller="demo">
     <a href="#" ng-click="serialize()">serialize</a>
 
@@ -120,7 +135,7 @@ $scope.layout = [{
      </div>
       <hr />
 
-    
+
   </div>
 
 

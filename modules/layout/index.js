@@ -23,7 +23,7 @@ module.exports = function(unuko) {
       title: 'aaa',
       js: ['librerias', 'js', 'a', 'renderizar'],
       css: ['classes', 'css', 'a', 'renderizar'],
-      layout: {}
+      layout: []
     }
 
     unuko.html['admin'] = {};
@@ -34,12 +34,12 @@ module.exports = function(unuko) {
         name: obj.name,
         title: obj.title,
         template: 'container',
-        layout: {}
+        layout: []
       };
 
       unuko.html[layout].container = unuko.html[layout].container || {};
       unuko.html[layout].container[obj.name] = _container;
-      unuko.html[layout].layout[obj.name] = unuko.html[layout].container[obj.name];
+      unuko.html[layout].layout.push(_container);
     }
 
     unuko.createRow = function(layout, container, obj) {
@@ -48,11 +48,12 @@ module.exports = function(unuko) {
         title: obj.title,
         template: 'row',
         container: container,
-        layout: {}
+        layout: []
       }
+      var _container = unuko.html[layout].container[container];
       unuko.html[layout].row = unuko.html[layout].row || {};
-      unuko.html[layout].row[obj.name] = _row;
-      unuko.html[layout].container[container].layout[obj.name] = unuko.html[layout].row[obj.name];
+      unuko.html[layout].row [obj.name] = _row;
+      _container.layout.push(_row);
     }
 
     unuko.createCol = function(layout, row, obj) {
@@ -63,12 +64,16 @@ module.exports = function(unuko) {
         row: row,
         container: unuko.html[layout].row[row].container,
         class: obj.class,
-        layout: {}
+        layout: []
       }
+      console.log('----Creando columna', row);
 
+      var _row = unuko.html[layout].row[row];
+      //console.log(_row);
       unuko.html[layout].col = unuko.html[layout].col || {};
       unuko.html[layout].col[obj.name] = _col;
-      unuko.html[layout].row[row].layout[obj.name] = unuko.html[layout].col[obj.name];
+      _row.layout.push(_col);
+      //unuko.html[layout].row[row].layout[obj.name] = unuko.html[layout].col[obj.name];
     }
 
     unuko.createBlock = function(res, layout, col, block) {
@@ -81,15 +86,17 @@ module.exports = function(unuko) {
 
 
 
-
+    console.log('--Creación de Contenedores');
     unuko.createContainer('main', {title: 'header', name: 'header'});
     unuko.createContainer('main', {title: 'main', name: 'main'});
     unuko.createContainer('main', {title: 'footer', name: 'footer'});
+    console.log('--Creación de Rows');
 
     unuko.createRow('main', 'header', {title: 'header1', name: 'header1'});
     unuko.createRow('main', 'header', {title: 'header2', name: 'header2'});
     unuko.createRow('main', 'main', {title: 'main', name: 'main'});
     unuko.createRow('main', 'footer', {title: 'footer', name: 'footer'});
+    console.log('--Creación de Cols');
 
     unuko.createCol('main', 'header1', {title: 'header1', name: 'header1', class: 'col-sm-3'});
     unuko.createCol('main', 'header2', {title: 'header2', name: 'header2', class: 'col-sm-12'});
@@ -299,7 +306,7 @@ module.exports = function(unuko) {
   }
 
   module.initializeMiddelware = function() {
-    var renderTemplates = function(obj) {
+    var renderTemplates_old = function(obj) {
       for(var item in obj) {
         if(obj[item].template) {
           obj[item].template = unuko.compiles[obj[item].template];
@@ -309,6 +316,21 @@ module.exports = function(unuko) {
         }
       }
     };
+
+    var renderTemplates = function(obj) {
+      //obj.forEach(function(element, index, array) {
+
+      for(var i=0, j=obj.length;i<j;i++) {
+        if(obj[i].template) {
+          obj[i].template = unuko.compiles[obj[i].template];
+        }
+        if(obj[i].layout) {
+          renderTemplates(obj[i].layout);
+        }
+      }
+
+      //});
+    }
     unuko.app.use(function(req, res, next) {
       //res.send(unuko.html['main']);
       console.time('clone');
@@ -334,29 +356,42 @@ module.exports = function(unuko) {
         unuko.blocks[block].position = col;
       }
       for(var b in res.blocks) {
-        console.log('->Procesando bloque', res.blocks[b]);
+        //console.log('->Procesando bloque', res.blocks[b]);
         //unuko.createBlock(req, 'main', res.blo)
 
         //unuko.createBlock(res, 'main', res.blocks[b])
       }
 
       renderTemplates(res.html.layout);
-
+      console.log(res.html.layout)
       //res.send(res.html);
       console.timeEnd('clone');
 
       //Refactorizo res para añadir setContent
       res.setContent = function(content) {
-        res.html.layout['main'].layout['main'].layout['content'].content = content;
+        res.html.col.content = content;
       }
       res.setTemplate = function(template) {
         res.html.title = template.title;
-        res.html.layout['main'].layout['main'].layout['content'].layout[template.title] = {
+        //res.html.layout['main'].layout['main'].layout['content'].layout[template.title] = {
+
+        var _container = res.html.layout.filter(function(element) {
+          console.log(element)
+          return element.name === 'main';
+        })[0];
+        var _row = _container.layout.filter(function(element) {
+          return element.name === 'main';
+        })[0];
+        var _col = _row.layout.filter(function(element) {
+          return element.name === 'content';
+        })[0];
+
+        _col.layout.push({
           title: template.title,
           name: template.name,
           template: template.template,
           data: template.data
-        };
+        });
       };
       next();
     });

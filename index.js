@@ -33,7 +33,37 @@ unuko.html.layout['footer'].layout['footer'].layout['footer'].layout['copyright'
 
 
 unuko.app.get('/getlayout', function(req, res) {
-  res.send(unuko.html['main'].layout);
+  var _output = {};
+  _output.layout = [];
+  console.log('.................................')
+  console.log('Inicio proceso')
+  console.log('.................................')
+  for(var container in unuko.html['main'].container) {
+    var _container = {
+      name: unuko.html['main'].container[container].name,
+      title: unuko.html['main'].container[container].title,
+      layout: []
+    };
+    for(var row in unuko.html['main'].container[container].layout) {
+      var _row = {
+        name: unuko.html['main'].container[container].layout[row].name,
+        title: unuko.html['main'].container[container].layout[row].title,
+        layout: []
+      }
+      for(var col in unuko.html['main'].container[container].layout[row].layout) {
+        var _col = {
+          name: unuko.html['main'].container[container].layout[row].layout[col].name,
+          title: unuko.html['main'].container[container].layout[row].layout[col].title,
+          class: unuko.html['main'].container[container].layout[row].layout[col].class
+        }
+        _row.layout.push(_col);
+      }
+      _container.layout.push(_row);
+    }
+    _output.layout.push(_container);
+  }
+  console.log(_output)
+  res.send(_output);
 })
 
 unuko.app.get('/', function(req, res) {
@@ -42,7 +72,18 @@ unuko.app.get('/', function(req, res) {
   text += '<p>Bienvenido a la página de presentación</p>';
   text += '<p>Se debería generar código tanto como layout, como añadiendo templates</p>';
   text += '<p><a href="/demo">Ir a demo</a></p>';
-  res.html.layout['main'].layout['main'].layout['content'].content = text;
+  var _container = res.html.layout.filter(function(element) {
+    console.log(element)
+    return element.name === 'main';
+  })[0];
+  var _row = _container.layout.filter(function(element) {
+    return element.name === 'main';
+  })[0];
+  var _col = _row.layout.filter(function(element) {
+    return element.name === 'content';
+  })[0];
+
+  _col.content = text;
   //res.send(res.html);
   /*
   res.html.layout['main'].layout['main'].layout['sidebar'].layout['login'].data = {
@@ -72,7 +113,7 @@ unuko.app.get('/:alias', function(req, res, next) {
 
 unuko.app.get('*', function(req, res) {
   console.log('Encontrado error 404');
-  res.setContent('<h1>404: Página no encontrada</h1>');
+  //res.setContent('<h1>404: Página no encontrada</h1>');
   res.send(unuko.render(res.html));
 });
 
