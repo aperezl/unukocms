@@ -33,13 +33,25 @@ unuko.app.use(cookieParser());
 unuko.app.use(express.static(__dirname + '/public'));
 unuko.app.use(bodyParser.urlencoded());
 unuko.app.use(methodOverride('_method'));
+unuko.app.set('view engine', 'hbs');
 
 unuko.modules.menu.create('main');
-unuko.modules.menu.create('admin');
+unuko.modules.menu.create('admin', '/admin');
 
 for(var m in unuko.modules) {
 	unuko.modules[m].initialize();
 }
+
+var _paths = unuko.modules.menu.items('admin');
+_paths.forEach(function(element) {
+	unuko.app.get(element.path, function(req, res, next) {
+		console.log('-----Esto va bien');
+		console.log(element);
+		req.menu = element;
+		next();
+	});
+});
+
 for(var m in unuko.modules) {
 	if(unuko.modules[m].initializeMiddleware) {
 		unuko.modules[m].initializeMiddleware();
@@ -47,13 +59,15 @@ for(var m in unuko.modules) {
 }
 
 //crear menus
-var _paths = unuko.modules.menu.items('admin');
 _paths.forEach(function(element) {
+	unuko.app.get(element.path, function(req, res, next) {
+		console.log('---Aquí podemos hacer algo---');
+		req.menu = element;
+		next();
+	})
 	if(element.access_callback) {
-		console.log('Access callback')
 		unuko.app.get(element.path, element.access_callback);
 	}
-	console.log('-->Routing ', element);
 	if(element.callback) {
 		unuko.app.get(element.path, element.callback);
 	} else {

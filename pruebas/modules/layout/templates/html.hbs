@@ -24,6 +24,15 @@
       .field-field {
         line-height: 1.7em;
       }
+      .navbar {
+        margin-bottom: 0;
+      }
+
+      ol.breadcrumb {
+        padding: 6px 0 !important;
+        margin-bottom: 0;
+        background-color: none;
+      }
     </style>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
@@ -52,8 +61,17 @@
     </nav>
 
 
+    <div style="background: #f0f0f0">
+      <div class="container">
+        <ol class="breadcrumb">
+        {{#each @breadcrumb}}
+          <li><a href="{{path}}">{{title}}</a></li>
+        {{/each}}
+        </ol>
+      </div>
+    </div>
 
-    {{#each layout}}
+    {{#each @html.layout}}
     {{>(template)}}
     {{/each}}
   </body>

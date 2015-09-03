@@ -2,33 +2,49 @@ module.exports = function(unuko) {
 	var _module = {};
 
 	var main = function(req, res) {
-		var items = unuko.modules.menu.items('admin');
-		var _output = '';
-		items.forEach(function(element) {
-			if(element.visible) {
-				_output += '<li><a href="' + element.path + '">' + element.name + '</a></li>'
+		var menu = unuko.modules.menu.get('admin', 'home');
+		res.setTemplate({
+			template: unuko.compiles['generic.menu'],
+			data: {
+				menu: menu
 			}
 		});
-		res.send(_output);
+		//res.send(unuko.modules.layout.render(res.html));
+		res.render('layout');
 	}
 
 	var config = function(req, res) {
 
-		res.send(unuko.modules.menu.breadcrumb('config'));
+		//res.send('ok');
+		res.render('layout');
 	}
 
 	_module.initialize = function() {
 		unuko.modules.menu.add('admin', {
+			title: 'Config',
 			name: 'config',
 			path: '/config',
+			parent: 'home',
 			callback: config,
 			visible: true,
 			access_callback: unuko.modules.roles.hasPermission,
-      		access_params: 'view roles',
+      access_params: 'view roles',
 		});
 
 		unuko.modules.menu.add('admin', {
-			name: 'inicio',
+			title: 'Config.param',
+			name: 'config.param',
+			path: '/config/:idParam',
+			parent: 'config',
+			callback: config,
+			visible: true,
+			access_callback: unuko.modules.roles.hasPermission,
+      access_params: 'view roles',
+		});
+
+		unuko.modules.menu.add('admin', {
+			title: 'Admin',
+			name: 'home',
 			path: '/',
 			callback: main,
 			visible: true

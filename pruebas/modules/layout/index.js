@@ -3,7 +3,6 @@ var hbs = require('hbs');
 
 //Sistema de plantillas
 //Core:
-var hjs = require
 module.exports = function(unuko) {
   var _module = {};
   _module.info = {
@@ -14,6 +13,7 @@ module.exports = function(unuko) {
 
 
   _module.initialize = function() {
+    hbs.localsAsTemplateData(unuko.app);
     unuko.partials = {};
     unuko.compiles = {};
     unuko.html = {};
@@ -50,30 +50,45 @@ module.exports = function(unuko) {
     //_module.createCol('main', 'main', {title: 'Sidebar', name: 'sidebar', class: 'col-sm-3'});
     //_module.createCol('main', 'footer', {title: 'footer', name: 'footer', class: 'col-sm-12'});
 
-    console.log(unuko.html['main']);
 
     //Register partials
+    _module.registerPartial(__dirname + '/templates/', 'html');
     _module.registerPartial(__dirname + '/templates/', 'container');
     _module.registerPartial(__dirname + '/templates/', 'row');
     _module.registerPartial(__dirname + '/templates/', 'col');
-    //unuko.registerPartial(__dirname + '/templates/', 'mainmenu');
     //Config
+    _module.registerPartial(__dirname + '/templates/', 'config');
     _module.registerPartial(__dirname + '/templates/', 'config.layout');
     //unuko.registerPartial(__dirname + '/templates/', 'config.struct');
     //unuko.registerPartial(__dirname + '/templates/', 'config.example');
 
-
-    _module.registerPartial(__dirname + '/templates/', 'html');
-    _module.registerPartial(__dirname + '/templates/', 'page');
-    _module.registerPartial(__dirname + '/templates/', 'sidebar');
-    _module.registerPartial(__dirname + '/templates/', 'about');
-    _module.registerPartial(__dirname + '/templates/', 'section');
-    _module.registerPartial(__dirname + '/templates/', 'block');
-
+    //Generic
+    _module.registerPartial(__dirname + '/templates/', 'generic.menu');
 
     unuko.modules.menu.add('admin', {
+      title: 'Layout',
+      name: 'layout',
+      parent: 'home',
+      path: '/layout',
+      callback: function(req, res) {
+        var menu = unuko.modules.menu.get('admin', 'layout');
+        res.setTemplate({
+          template: unuko.compiles['generic.menu'],
+          data: {
+            menu: menu
+          }
+        });
+        //res.send(_module.render(res.html));
+        res.render('layout');
+      },
+      visible: true
+    });
+
+    unuko.modules.menu.add('admin', {
+      title: 'Partials',
       name: 'layout.partials',
       path: '/layout/partials',
+      parent: 'layout',
       callback: function(req, res) {
         res.setTemplate({
           template: unuko.compiles['config.layout'],
@@ -81,7 +96,8 @@ module.exports = function(unuko) {
             partials: unuko.partials
           }
         });
-        res.send(_module.render(res.html));
+        //res.send(_module.render(res.html));
+        res.render('layout');
       },
       visible: true,
       access_callback: unuko.modules.roles.hasPermission,
@@ -96,10 +112,7 @@ module.exports = function(unuko) {
     source += '{{>html}}\n';
     source += '<!-- /Render generator -->\n'
     var template = hbs.compile(source);
-    console.log('html', html)
-
     var result = template(html);
-    console.log(result);
 
     console.timeEnd('render');
     return result;
@@ -195,14 +208,13 @@ module.exports = function(unuko) {
     unuko.app.use(function(req, res, next) {
       //res.send(unuko.html['main']);
       console.time('clone');
-      res.html = JSON.parse(JSON.stringify(unuko.html['main']));
-      renderTemplates(res.html.layout);
+      res.locals.html = JSON.parse(JSON.stringify(unuko.html['main']));
+      renderTemplates(res.locals.html.layout);
       console.timeEnd('clone');
 
       //Refactorizo res para añadir setContent
       res.setContent = function(content) {
         var _container = res.html.layout.filter(function(element) {
-          console.log(element)
           return element.name === 'main';
         })[0];
         var _row = _container.layout.filter(function(element) {
@@ -216,11 +228,10 @@ module.exports = function(unuko) {
       }
 
       res.setTemplate = function(template) {
-        res.html.title = template.title;
+        res.locals.html.title = template.title;
         //res.html.layout['main'].layout['main'].layout['content'].layout[template.title] = {
 
-        var _container = res.html.layout.filter(function(element) {
-          console.log(element)
+        var _container = res.locals.html.layout.filter(function(element) {
           return element.name === 'main';
         })[0];
         var _row = _container.layout.filter(function(element) {
