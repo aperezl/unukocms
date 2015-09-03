@@ -26,7 +26,7 @@ module.exports = function(unuko) {
 			access_callback: unuko.modules.roles.hasPermission,
       		access_params: 'view roles',
 		});
-		
+
 		unuko.modules.menu.add('admin', {
 			name: 'inicio',
 			path: '/',
@@ -34,7 +34,7 @@ module.exports = function(unuko) {
 			visible: true
 		});
 	}
-	
+
 
 	return _module;
 }

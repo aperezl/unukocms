@@ -1,0 +1,31 @@
+<p><strong>Layout</strong></p>
+<ul>
+  {{#each data.blocks}}
+  <li>{{name}}</li>
+  {{/each}}
+</ul>
+
+<div class="row">
+  <div class="col-sm-12" style="background: #f1f1f1; margin: 5px 0">
+    <p>Contenedores</p>
+    <div class="row" style="background: #ffffff; margin: 5px 0">
+
+      {{#each data.struct.layout}}
+      <div class="row" style="background: #c0c0c0; margin: 5px 0">
+        row
+        {{#each layout}}
+        <div class="row" style="background: #b0b0b0; margin: 5px 0">
+          {{#each layout}}
+          <div class="{{class}}" style="background: #f0f0f0">col-sm-12
+          {{#each layout}}
+            <div class="block" style="border: 1px dotted; margin: 5px 0;">{{name}}</div>
+          {{/each}}
+          </div>
+          {{/each}}
+        </div>
+      {{/each}}
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</div>

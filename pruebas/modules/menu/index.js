@@ -56,6 +56,8 @@ module.exports = function(unuko) {
 		unuko.modules.menu.add('admin', {name: 'content', path: '/content', visible: true});
 		unuko.modules.menu.add('admin', {name: 'content.new', path: '/content/new', parent: 'content', visible: true});
 		unuko.modules.menu.add('admin', {name: 'content.edit', path: '/content/:id/edit', parent: 'content', visible: false});
+
+		
 	}
 	return _module;
 }

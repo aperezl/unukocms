@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <title>{{title}}</title>
+    <link rel='stylesheet' href="/css/bootstrap.min.css">
+    <style>
+      body {
+        <!--padding-top: 70px;-->
+      }
+      .wrp-container-header {
+        background: #3F688E;
+      }
+      .wrp-container-footer {
+        background: #FF7F50;
+        text-align: right;
+      }
+
+      .field {
+        margin-bottom: 3em;
+      }
+
+      .field-label {
+        font-weight: bold;
+      }
+      .field-field {
+        line-height: 1.7em;
+      }
+    </style>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Admin</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/entity">Content</a></li>
+            <li><a href="/user">Users</a></li>
+            <li><a href="/config">Config</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+
+
+    {{#each layout}}
+    {{>(template)}}
+    {{/each}}
+  </body>
+</html>

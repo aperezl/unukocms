@@ -1,16 +1,41 @@
 var express = require('express');
-var app = express();
-var unuko = {};
-unuko.app = app;
-unuko.modules = {};
-unuko.modules.menu = require('./menu')(unuko);
-unuko.modules.config = require('./config')(unuko);
-unuko.modules.roles = require('./roles')(unuko)
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+var cookieParser = require('cookie-parser');
 
+unuko = {};
+unuko.app = express();
+unuko.mongoose = require('mongoose');
+unuko.models = {};
+unuko.Schema = unuko.mongoose.Schema;
+
+
+unuko.mongoose.connect('mongodb://localhost/mean');
+
+
+unuko.modules = {};
+unuko.modules.menu = require('./modules/menu')(unuko);
+unuko.modules.config = require('./modules/config')(unuko);
+unuko.modules.roles = require('./modules/roles')(unuko);
+unuko.modules.layout = require('./modules/layout')(unuko);
+unuko.modules.user = require('./modules/user')(unuko);
+
+
+
+unuko.vars = {};
+unuko.vars['copyright'] = 'Esta página es Unuko.com';
+unuko.vars['about'] = '<p>Acerca de esta página. Esto debería configurable desde el submenú correspondiente</p>';
+unuko.vars['basePath'] = __dirname;
+unuko.vars['regenerateTemplates'] = true;
+
+
+unuko.app.use(cookieParser());
+unuko.app.use(express.static(__dirname + '/public'));
+unuko.app.use(bodyParser.urlencoded());
+unuko.app.use(methodOverride('_method'));
 
 unuko.modules.menu.create('main');
 unuko.modules.menu.create('admin');
-
 
 for(var m in unuko.modules) {
 	unuko.modules[m].initialize();
@@ -44,4 +69,4 @@ _paths.forEach(function(element) {
 //console.log("getDeep: %j", menu.getDeep('admin'));
 
 
-app.listen(3000);
+unuko.app.listen(3000);
