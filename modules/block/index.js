@@ -15,7 +15,7 @@ module.exports = function(unuko) {
         title: title,
         content: content,
         template: 'block',
-        layout: layout || {}
+        layout: layout ? [layout] : []
       }
     }
 
@@ -24,63 +24,48 @@ module.exports = function(unuko) {
   module.registerModule = function() {
     unuko.registerPartial(__dirname + '/templates/', 'edit.block');
 
-    unuko.registerBlock('login', 'login', '', {
-      'login': {
-        name: 'login',
-        title: 'login',
-        template: 'login'
-      }
-    });
-    unuko.registerBlock('about', 'about', unuko.vars['about'], {
-      'about': {
-        name: 'about',
-        title: 'about',
-        template: 'about'
-      }
-    });
+    unuko.registerBlock('login', 'login', '', { name: 'login', title: 'login', template: 'login' });
+    unuko.registerBlock('about', 'about', unuko.vars['about'], { name: 'about', title: 'about', template: 'about' });
 
-      unuko.registerBlock('breadcrumb', 'breadcrumb', 'Se encuentra en: ');
-      unuko.registerBlock('logo', 'logo', '<a href="/">Logo</a>');
-      unuko.registerBlock('copyright', 'copyright', unuko.vars['copyright']);
-
+    unuko.registerBlock('breadcrumb', 'breadcrumb', 'Se encuentra en: ');
+    unuko.registerBlock('logo', 'logo', '<a href="/">Logo</a>');
+    unuko.registerBlock('copyright', 'copyright', unuko.vars['copyright']);
 
       unuko.blocks['mainmenu'] = {
         title: 'mainmenu',
         name: 'mainmenu',
         template: 'block',
-        layout: {
-          'mainmenu': {
-            title: 'mainmenu',
-            name: 'mainmenu',
-            template: 'mainmenu',
-            menus: [
-              {
-                href: '/',
-                title: 'Inicio'
-              },
-              {
-                href: '/demo',
-                title: 'Demo'
-              },
-              {
-                href: '/entity',
-                title: 'Entity'
-              },
-              {
-                href: '/user',
-                title: 'Users'
-              },
-              {
-                href: '/acercade',
-                title: 'Acerca de'
-              },
-              {
-                href: '/layout',
-                title: 'Layout'
-              }
-            ]
-          }
-        }
+        layout:  [{
+          title: 'mainmenu',
+          name: 'mainmenu',
+          template: 'mainmenu',
+          menus: [
+            {
+              href: '/',
+              title: 'Inicio'
+            },
+            {
+              href: '/demo',
+              title: 'Demo'
+            },
+            {
+              href: '/entity',
+              title: 'Entity'
+            },
+            {
+              href: '/user',
+              title: 'Users'
+            },
+            {
+              href: '/acercade',
+              title: 'Acerca de'
+            },
+            {
+              href: '/layout',
+              title: 'Layout'
+            }
+          ]
+        }]
       }
     }
 

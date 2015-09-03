@@ -65,7 +65,7 @@ module.exports = function(unuko) {
         var _breadcrumb = [];
         getItem(_breadcrumb, unuko.menu[unuko.menu[path.url].url], req, res);
 
-        res.blocks.breadcrumb.layout.breadcrumb.data = {
+        res.blocks.breadcrumb.layout[0].data = {
           breadcrumb: _breadcrumb
         }
 

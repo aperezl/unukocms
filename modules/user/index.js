@@ -159,12 +159,10 @@ module.exports = function(unuko) {
 
 
     unuko.registerBlock('userinfo', 'userinfo', '', {
-      'userinfo': {
-        name: 'userinfo',
-        title: 'userinfo',
-        template: 'userinfo',
-        data: 'data de prueba'
-      }
+      name: 'userinfo',
+      title: 'userinfo',
+      template: 'userinfo',
+      data: 'data de prueba'
     });
 
     unuko.registerHelper('user_roles', function(items, options) {
@@ -231,10 +229,10 @@ module.exports = function(unuko) {
     //Se crea un mw para cargar información relevante del usaurio
     unuko.app.use(function(req, res, next) {
 
-      res.blocks.userinfo.layout.userinfo.data = {
+      res.blocks.userinfo.layout[0].data = {
         user: req.user
       }
-      res.blocks.login.layout.login.data = {
+      res.blocks.login.layout[0].data = {
         user:req.user
       }
       next();

@@ -89,12 +89,10 @@ module.exports = function(unuko) {
     unuko.registerPermission('view entity');
 
     unuko.registerBlock('breadcrumb', 'breadcrumb', '', {
-      'breadcrumb': {
-        name: 'breadcrumb',
-        title: 'breadcrumb',
-        template: 'breadcrumb',
-        data: 'data de prueba'
-      }
+      name: 'breadcrumb',
+      title: 'breadcrumb',
+      template: 'breadcrumb',
+      data: 'data de prueba'
     });
 
   }
