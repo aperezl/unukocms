@@ -44,11 +44,11 @@ module.exports = function(unuko) {
     _module.createRow('main', 'footer', {title: 'footer', name: 'footer'});
     console.log('--Creación de Cols');
 
-    //_module.createCol('main', 'header1', {title: 'header1', name: 'header1', class: 'col-sm-3'});
-    //_module.createCol('main', 'header2', {title: 'header2', name: 'header2', class: 'col-sm-12'});
+    _module.createCol('main', 'header1', {title: 'header1', name: 'header1', class: 'col-sm-3'});
+    _module.createCol('main', 'header2', {title: 'header2', name: 'header2', class: 'col-sm-12'});
     _module.createCol('main', 'main', {title: 'Content', name: 'content', class: 'col-sm-9'});
-    //_module.createCol('main', 'main', {title: 'Sidebar', name: 'sidebar', class: 'col-sm-3'});
-    //_module.createCol('main', 'footer', {title: 'footer', name: 'footer', class: 'col-sm-12'});
+    _module.createCol('main', 'main', {title: 'Sidebar', name: 'sidebar', class: 'col-sm-3'});
+    _module.createCol('main', 'footer', {title: 'footer', name: 'footer', class: 'col-sm-12'});
 
 
     //Register partials
@@ -100,7 +100,7 @@ module.exports = function(unuko) {
         res.render('layout');
       },
       visible: true,
-      access_callback: unuko.modules.roles.hasPermission,
+      access_callback: unuko.modules.user.hasPermission,
       access_params: 'view roles'
     });
 

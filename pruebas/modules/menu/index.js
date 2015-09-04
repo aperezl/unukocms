@@ -24,6 +24,7 @@ module.exports = function(unuko) {
 			path: menu[name].base + item.path,
 			callback: item.callback,
 			parent: item.parent ? item.parent : '',
+			method: item.method ? item.method : 'get',
 			visible: item.visible,
 			access_callback: item.access_callback,
 			access_params: item.access_params
@@ -36,7 +37,7 @@ module.exports = function(unuko) {
 	_module.get = function(name, level) {
 		var level = level || '';
 		var _output = menu[name].items.filter(function(element) {
-			return element.parent === level;
+			return (element.parent === level && (!element.method || element.method=='get'));
 		});
 		return _output;
 	}

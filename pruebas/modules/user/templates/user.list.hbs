@@ -1,0 +1,20 @@
+<table class="table">
+  <tr>
+    <th>Name</th>
+    <th>created</th>
+    <th>roles</th>
+  </tr>
+  {{#each data.users}}
+  <tr>
+    <td><a href="/admin/user/list/{{username}}">{{username}}</a></td>
+    <td>{{created}}</td>
+    <td>
+      <ul>
+        {{#each roles}}
+        <li>{{name}}</li>
+        {{/each}}
+      </ul>
+    </td>
+  </tr>
+  {{/each}}
+</table>

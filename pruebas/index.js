@@ -16,9 +16,9 @@ unuko.mongoose.connect('mongodb://localhost/mean');
 unuko.modules = {};
 unuko.modules.menu = require('./modules/menu')(unuko);
 unuko.modules.config = require('./modules/config')(unuko);
-unuko.modules.roles = require('./modules/roles')(unuko);
 unuko.modules.layout = require('./modules/layout')(unuko);
 unuko.modules.user = require('./modules/user')(unuko);
+unuko.modules.block = require('./modules/block')(unuko);
 
 
 
@@ -60,18 +60,18 @@ for(var m in unuko.modules) {
 
 //crear menus
 _paths.forEach(function(element) {
-	unuko.app.get(element.path, function(req, res, next) {
+	unuko.app[element.method](element.path, function(req, res, next) {
 		console.log('---Aquí podemos hacer algo---');
 		req.menu = element;
 		next();
 	})
 	if(element.access_callback) {
-		unuko.app.get(element.path, element.access_callback);
+		unuko.app[element.method](element.path, element.access_callback);
 	}
 	if(element.callback) {
-		unuko.app.get(element.path, element.callback);
+		unuko.app[element.method](element.path, element.callback);
 	} else {
-		unuko.app.get(element.path, function(req, res) {
+		unuko.app[element.method](element.path, function(req, res) {
 			res.send(element)
 		});
 	}

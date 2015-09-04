@@ -27,7 +27,7 @@ module.exports = function(unuko) {
 			parent: 'home',
 			callback: config,
 			visible: true,
-			access_callback: unuko.modules.roles.hasPermission,
+			access_callback: unuko.modules.user.hasPermission,
       access_params: 'view roles',
 		});
 
@@ -38,7 +38,7 @@ module.exports = function(unuko) {
 			parent: 'config',
 			callback: config,
 			visible: true,
-			access_callback: unuko.modules.roles.hasPermission,
+			access_callback: unuko.modules.user.hasPermission,
       access_params: 'view roles',
 		});
 
