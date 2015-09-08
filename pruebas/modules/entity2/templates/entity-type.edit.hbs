@@ -1,0 +1,29 @@
+todo ok
+
+<p><strong>Nombre: </strong>{{data.entityType.name}}</p>
+<p><strong>Listado de campos</strong></p>
+<ul>
+  {{#each data.entityType.fields}}
+    <li><strong>name: </strong> {{name}}</li>
+  {{/each}}
+</ul>
+
+
+<table class="table">
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Actions</th>
+  </tr>
+  {{#each data.entityType.fields}}
+  <tr>
+    <td>{{name}}</td>
+    <td>{{field.type.name}}</td>
+    <td>
+      <a class="btn btn-default" href="/admin/entity2/{{../data.entityType.name}}/{{name}}">Configure</a>
+    </td>
+  </tr>
+  {{/each}}
+
+
+</table>
