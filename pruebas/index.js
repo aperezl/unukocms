@@ -19,11 +19,8 @@ unuko.modules.config = require('./modules/config')(unuko);
 unuko.modules.layout = require('./modules/layout')(unuko);
 unuko.modules.user = require('./modules/user')(unuko);
 unuko.modules.block = require('./modules/block')(unuko);
-<<<<<<< HEAD
 unuko.modules.entity = require('./modules/entity')(unuko);
-=======
 unuko.modules.entity2 = require('./modules/entity2')(unuko);
->>>>>>> 6dffc7cdc67242c418b68f50de5622dfdac66eee
 
 
 
