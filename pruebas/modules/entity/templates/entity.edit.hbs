@@ -1,0 +1,93 @@
+{{>tabs}}
+<h1>Edición de una nueva entidad</h1>
+<form id="aa" action="/entity/{{data.entity._id}}?_method=put" method="post">
+  <div class="form-group">
+    <label for="title">Titulo</label>
+    <input type="text" class="form-control" name="title" id="title" value="{{data.entity.title}}"/>
+  </div>
+
+  <hr />
+---
+{{#fieldsEdit data}}{{/fieldsEdit}}
+---
+<div class="well clearfix">
+      <ul class="nav nav-pills nav-stacked col-md-3">
+        <li class="active"><a href="#a" data-toggle="tab">Opciones de publicación</a></li>
+        <li><a href="#b" data-toggle="tab">Permisos</a></li>
+        <li><a href="#c" data-toggle="tab">Menu and Alias</a></li>
+      </ul>
+      <div class="tab-content col-md-9">
+
+        <div class="tab-pane active" id="a">
+          <div class="form-group">
+            <label for="status">Estado {{data.entity.status}}</label>
+            <select class="form-control" name="status">
+              <option value="draft"{{#ifvalue data.entity.status value="draft"}} selected="selected" {{/ifvalue}}>Borrador</option>
+              <option value="publish"{{#ifvalue data.entity.status value="publish"}} selected="selected" {{/ifvalue}}>Publicado</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <div class="checkbox">
+              <label><input type="checkbox" name="index" {{#if data.entity.index}} checked="checked" {{/if}} />
+                Configurar esta entidad como página indice
+              </label>
+            </div>
+          </div>
+
+          {{data.entity._parent}}
+          <div class="form-group">
+            <label for="title">Entidad padre</label>
+            <select class="form-control" name="parent">
+              <option value="">--Sin página padre--</option>
+              {{#each data.entitiesIndex}}
+              <option value="{{_id}}" {{#ifvalue ../data.entity._parent value=_id}} selected="selected" {{/ifvalue}}>
+                {{title}}
+              </option>
+              {{/each}}
+            </select>
+          </div>
+
+        </div>
+
+        <div class="tab-pane" id="b">
+          <div class="form-group">
+            <div class="checkbox">
+              <label><input type="checkbox" value="" />anonymous</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" value="" />registed</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" value="" />administrator</label>
+            </div>
+          </div>
+
+        </div>
+        <div class="tab-pane" id="c">
+
+          <div class="form-group">
+            <div class="checkbox">
+              <label form="alias">
+                <input type="checkbox" name="hasalias" {{#if data.entity.hasalias}} checked="checked" {{/if}} />
+                Has Alias?
+              </label>
+            </div>
+
+              <label form="alias">Alias</label>
+              <input class="form-control" name="alias" type="text" value="{{data.entity.alias}}"/>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+  <div class="form-group">
+    <button class="btn btn-primary" type="submit">Enviar</button>
+  </div>
+
+
+
+
+</form>

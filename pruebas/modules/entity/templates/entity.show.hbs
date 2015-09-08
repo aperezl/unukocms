@@ -1,0 +1,9 @@
+{{>tabs}}
+<h1>{{data.entity.title}}</h1>
+<ul>
+  <li><strong>Status: </strong>{{data.entity.status}}</li>
+  <li><strong>Index: </strong>{{data.entity.index}}</li>
+  <li><strong>Parent: </strong>{{data.entity._parent}}</li>
+</ul>
+
+{{#fields data}}{{/fields}}

@@ -102,10 +102,22 @@ module.exports = function(unuko) {
 
 	  unuko.modules.menu.add('admin', {
 	      name: 'user_list_edit',
-	      title: 'User List Edit',
+	      title: 'Edit',
 	      path: '/user/list/:username',
-		  parent: 'user.list',
-	      callback: function(req, res) {res.send('ok')}
+		    parent: 'user.list',
+	      callback: function(req, res) {
+          unuko.models.User.find({})
+          .populate('roles')
+          .exec(function(err, users) {
+            res.setTemplate({
+              template: unuko.compiles['user.list.edit'],
+              data: {
+                users: users
+              }
+            });
+            res.render('layout');
+          });
+        }
     });
 
 /*

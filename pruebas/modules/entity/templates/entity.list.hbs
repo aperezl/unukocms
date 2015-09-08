@@ -1,0 +1,31 @@
+<h1>Listado de entidades</h1>
+
+<table class="table">
+  <tr>
+    <th>Name</th>
+    <th>created</th>
+    <th>Status</th>
+  </tr>
+{{#each data.entities}}
+  <tr>
+    <td>
+      <a href="/entity/{{_id}}">{{title}}</a>
+      <br />
+      <small>
+        <strong>Path:</strong> {{#if alias}}/{{alias}}{{else}}/entity/{{_id}}{{/if}}
+      </small>
+    </td>
+    <td>{{created}}</td>
+    <td>
+      {{status}}
+    </td>
+    <td>
+      <a class="btn btn-default btn-sm" href="/admin/entity/edit/{{_id}}">
+        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+        Editar
+      </a>
+    </td>
+  </tr>
+  {{/each}}
+</table>
+<a class="btn btn-primary" href="/entity/new">Nueva entidad</a>
