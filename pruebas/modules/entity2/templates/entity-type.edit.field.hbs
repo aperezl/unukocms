@@ -1,0 +1,46 @@
+askjdfsla
+
+<p><strong>Name: </strong>{{data.field.name}}</p>
+
+<p><strong>Type: </strong>{{data.field.name}}</p>
+
+{{data.field.type}}
+
+<ul>
+  {{#each data.field.type.validators}}
+  <li><strong>{{this.title}}</strong>: __{{../data.field.validators.[this.title]}}</li>
+  {{/each}}
+</ul>
+<strong>Aquí hay que usar un helper</strong>
+
+
+<from class="form-horizontal">
+  <div class="well clearfix">
+    <ul class="nav nav-pills nav-stacked col-md-3">
+      <li class="active"><a href="#a" data-toggle="tab">Validators</a></li>
+      <li><a href="#b" data-toggle="tab">Permisos</a></li>
+      <li><a href="#c" data-toggle="tab">Extras</a></li>
+    </ul>
+
+    <div class="tab-content col-md-9">
+
+      <div class="tab-pane active" id="a">
+        {{#each data.field.type.validators}}
+        <div class="form-group">
+          <div class="checkbox">
+            <label form="alias" class="control-label col-sm-4">{{this.title}}</label>
+            <div class="col-sm-8">
+              <input class="form-control" name="alias" type="text" value=""/>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+
+      <div class="tab-pane" id="b">
+        --2
+      </div>
+
+    </div>
+  </div>
+</from>
