@@ -97,7 +97,6 @@ module.exports = function(unuko) {
       //
 
       //res.html.layout[_container].layout[_row].layout[col].layout[block.name] = block;
-
     }
 
 
@@ -339,6 +338,27 @@ module.exports = function(unuko) {
       res.setContent(text);
       res.send(unuko.render(res.html));
     })
+
+
+    unuko.path({
+      name: 'config.layout',
+      title: 'config.layout',
+      url: '/admin/layout/partials',
+      method: 'get',
+      callback: function(req, res) {
+        res.setTemplate({
+          title: 'config.layout',
+          name: 'config.layout',
+          template: unuko.compiles['config.layout'],
+          data: {
+            partials: unuko.partials
+          }
+        });
+        res.send(unuko.render(res.html));
+      },
+      access_callback: unuko.hasPermission,
+      access_params: 'view roles',
+    });
 
     unuko.app.get('/layout/partials', function(req, res) {
       res.setTemplate({

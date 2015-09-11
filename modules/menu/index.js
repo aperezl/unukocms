@@ -34,12 +34,14 @@ module.exports = function(unuko) {
 
       unuko.menu[path.url] = {
         url: path.url,
+        type: path.type,
         title: path.title,
         name: path.name,
         callback_path: path.callback_path,
         parent: path.parent,
         callback: path.callback
-      }
+      };
+      
       var getItem = function(breadcrumb, item, req, res) {
         var _aux = {};
         _aux.name = item.name;
@@ -58,10 +60,6 @@ module.exports = function(unuko) {
         breadcrumb.push(_aux);
       }
       unuko.app[path.method](path.url, function(req, res, next) {
-        if(path.access_callback) {
-          //console.log('callback', path.access_callback);
-        }
-        //Configuración del menú anidado
         var _breadcrumb = [];
         getItem(_breadcrumb, unuko.menu[unuko.menu[path.url].url], req, res);
 
